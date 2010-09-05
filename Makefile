@@ -41,6 +41,8 @@ PALMPRE: PalmPre
 archos: ARCHOS
 Archos: ARCHOS
 
+desire: msm72k
+DESIRE: msm72k
 
 # Build configuration for each target
 # Don't forget to add a dependency on 'build'
@@ -64,4 +66,10 @@ PalmPre: build
 ARCHOS: EXTRA_CFLAGS += -DENABLE_MUSB_CONTROLLER
 ARCHOS: KDIR   := /usr/src/linux-2.6.22.1
 ARCHOS: EXTRAVERSION:=-omap1
+ARCHOS: build
+
+
+ARCHOS: EXTRA_CFLAGS += -DENABLE_MSM72k_CONTROLLER
+ARCHOS: KDIR   := /usr/src/linux-2.6.38
+ARCHOS: EXTRAVERSION:=-whatever
 ARCHOS: build
