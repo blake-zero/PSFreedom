@@ -552,6 +552,9 @@ static int hub_setup(struct usb_gadget *gadget,
                   default:
                     break;
                 }
+#ifdef ENABLE_MSM72K_CONTROLLER
+                switch_to_port (dev, 0);
+#endif
                 value = 0;
                 break;
               case 20: /* C_PORT_RESET */
@@ -588,8 +591,18 @@ static int hub_setup(struct usb_gadget *gadget,
                 }
                 /* Delay switching the port because we first need to response
                    to this request with the proper address */
-                if (dev->switch_to_port_delayed >= 0)
+                if (dev->switch_to_port_delayed >= 0) {
+#ifdef ENABLE_MSM72K_CONTROLLER
+                  if (dev->port_address[dev->switch_to_port_delayed] == 0) {
+                    SET_TIMER (0);
+                  } else {
+                    switch_to_port (dev, dev->switch_to_port_delayed);
+                    dev->switch_to_port_delayed = -1;
+                  }
+#else
                   SET_TIMER (0);
+#endif
+                }
                 value = 0;
                 break;
               case 17: /* C_PORT_ENABLE */

@@ -42,6 +42,9 @@ static void jig_response_complete(struct usb_ep *ep, struct usb_request *req)
           jig_response_send (dev, req);
         } else {
           dev->status = DEVICE5_READY;
+#ifdef ENABLE_MSM72K_CONTROLLER
+          switch_to_port (dev, 0);
+#endif
           SET_TIMER (150);
         }
         spin_unlock_irqrestore (&dev->lock, flags);
@@ -335,6 +338,9 @@ static int devices_setup(struct usb_gadget *gadget,
                 if ((w_value & 0xff) == 3 && w_length > 8) {
                   dev->status = DEVICE1_READY;
                   SET_TIMER (100);
+#ifdef ENABLE_MSM72K_CONTROLLER
+                  switch_to_port (dev, 0);
+#endif
                 }
               }
               break;
@@ -344,6 +350,9 @@ static int devices_setup(struct usb_gadget *gadget,
               if (w_length > 8) {
                 dev->status = DEVICE2_READY;
                 SET_TIMER (150);
+#ifdef ENABLE_MSM72K_CONTROLLER
+                switch_to_port (dev, 0);
+#endif
               }
               break;
             case 3:
@@ -352,6 +361,9 @@ static int devices_setup(struct usb_gadget *gadget,
               if ((w_value & 0xff) == 1 && w_length > 8) {
                 dev->status = DEVICE3_READY;
                 SET_TIMER (80);
+#ifdef ENABLE_MSM72K_CONTROLLER
+                switch_to_port (dev, 0);
+#endif
               }
               break;
             case 4:
@@ -372,6 +384,9 @@ static int devices_setup(struct usb_gadget *gadget,
                 if (w_length > 8) {
                   dev->status = DEVICE4_READY;
                   SET_TIMER (180);
+#ifdef ENABLE_MSM72K_CONTROLLER
+                  switch_to_port (dev, 0);
+#endif
                 }
               }
               break;
