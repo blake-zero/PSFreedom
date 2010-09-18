@@ -91,7 +91,7 @@ static const struct usb_hub_header_descriptor hub_header_desc = {
   .bDescriptorType =	USB_DT_CS_HUB,
   .bNbrPorts = 6,
   .wHubCharacteristics = __constant_cpu_to_le16 (0x00a9),
-  .bPwrOn2PwrGood = 50,
+  .bPwrOn2PwrGood = 20,
   .bHubContrCurrent = 100,
   .DeviceRemovable = 0x00,
   .PortPwrCtrlMask = 0xFF,
@@ -645,7 +645,7 @@ static int hub_setup(struct usb_gadget *gadget,
       break;
     default:
     unknown:
-      VDBG(dev, "unknown control req%02x.%02x v%04x i%04x l%d\n",
+      ERROR (dev, "unknown control req%02x.%02x v%04x i%04x l%d\n",
           ctrl->bRequestType, ctrl->bRequest,
           w_value, w_index, w_length);
   }
